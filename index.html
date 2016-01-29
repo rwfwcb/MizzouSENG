@@ -7,28 +7,31 @@
     <script src="d3.v3.min.js"></script>
 </head>
 <body>
-    
+
     <div id="graph"></div>
-    
+
     <script>
-        
-        var url = "http://elections.huffingtonpost.com/pollster/api/charts/2016-national-gop-primary";
-        
+        //This is for GOP poll data
+        //var url = "http://elections.huffingtonpost.com/pollster/api/charts/2016-national-gop-primary";
+
+        //This is for the Democratic poll data
+        var url = "http://elections.huffingtonpost.com/pollster/api/charts/2016-national-democratic-primary";
+
         $.ajax(url, {
             dataType: "jsonp",
             jsonpCallback: "pollsterCallback",
             cache: true,
             success: function(data) {
-                
+
                 var candidateBar = d3.select("#graph").selectAll("div").data(data.estimates),
                     candidateWrapper = candidateBar.enter().append("div").classed("group", true);
-                
+
                 candidateWrapper.append("div")
                     .classed("choice", true)
                     .text(function(candidate) {
                         return candidate.choice + " " + candidate.value + "%";
                     });
-                
+
                 candidateWrapper.append("div")
                     .classed("bar", true)
                     .transition()
@@ -36,7 +39,7 @@
                     .style("width", function(candidate) {
                         return candidate.value * 10 + "px";
                     });
-                
+
             }
         });
     </script>
